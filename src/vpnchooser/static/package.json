@@ -1,0 +1,14 @@
+{
+    "name": "vpnchooser-frontend",
+    "description": "Frontend of the VPNChooser application.",
+    "author": "Christoph Brand <ch.brand@scolterius.net>",
+    "version": "0.5.0",
+    "dependencies": {
+        "grunt": "0.4.x",
+        "grunt-require": "1.1.x"
+    },
+    "devDependencies": {
+
+    },
+    "engine": "node >= 0.4.1"
+}
