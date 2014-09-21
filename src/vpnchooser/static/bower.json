@@ -17,9 +17,9 @@
         "tests"
     ],
     "dependencies": {
-        "require": "",
         "jquery": "2.x.x",
         "angular": "1.2.x",
-        "angular-resource": "~1.2.x"
+        "angular-resource": "~1.2.x",
+        "angular-base64": "2.x.x"
     }
 }

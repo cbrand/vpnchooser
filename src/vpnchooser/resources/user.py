@@ -29,11 +29,16 @@ parser.add_argument(
     'is_admin', type=bool,
     required=False,
 )
+parser.add_argument(
+    'api_key', type=str,
+    required=False,
+)
 
 
 resource_fields = {
     'name': fields.String,
     'is_admin': fields.Boolean,
+    'api_key': fields.String,
     'self': AbsoluteUrl('user'),
 }
 
@@ -48,6 +53,7 @@ class AbstractUserResource(Resource):
         args = parser.parse_args()
         user.name = args.name
         user.is_admin = args.is_admin
+        user.api_key = args.api_key
         if args.password:
             user.password = args.password
         return user

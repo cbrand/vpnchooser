@@ -1,5 +1,8 @@
 # -*- encoding: utf-8 -*-
 
+import os
+import hashlib
+
 from passlib.hash import pbkdf2_sha512
 
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -16,9 +19,7 @@ class User(db.Model):
 
     name = db.Column(db.Unicode(255), primary_key=True)
 
-    _password = db.Column(db.Unicode(512), nullable=False)
-
-    is_admin = db.Column(db.Boolean, default=False, server_default='false')
+    _password = db.Column('password', db.Unicode(512), nullable=False)
 
     @hybrid_property
     def password(self):
@@ -34,3 +35,21 @@ class User(db.Model):
         in the database
         """
         return pbkdf2_sha512.verify(password, self.password)
+
+    is_admin = db.Column(db.Boolean, default=False, server_default='false')
+
+    _api_key = db.Column('api_key', db.Unicode(512), nullable=False)
+
+    @hybrid_property
+    def api_key(self):
+        if self._api_key is None:
+            self._api_key = hashlib.new('sha512', os.urandom(512)).hexdigest()
+        return self._api_key
+
+    @api_key.setter
+    def api_key(self, api_key):
+        self._api_key = api_key
+
+    @api_key.expression
+    def api_key(cls):
+        return cls._api_key

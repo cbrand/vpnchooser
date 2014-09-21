@@ -5,7 +5,7 @@
     "version": "0.5.0",
     "dependencies": {
         "grunt": "0.4.x",
-        "grunt-require": "1.1.x"
+        "grunt-ngmin": "0.x.x"
     },
     "devDependencies": {
 
