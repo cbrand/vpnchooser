@@ -40,7 +40,7 @@ class Rule(object):
         )
 
     @classmethod
-    def parse(cls, line: str) -> Rule:
+    def parse(cls, line: str):
         match = parse_rule.match(line)
         if match is None:
             return None

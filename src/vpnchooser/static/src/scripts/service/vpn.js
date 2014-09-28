@@ -1,16 +1,16 @@
 /**
- * service/user.js
+ * service/vpn.js
  *
- * The Service to get users from the backend.
+ * The Service to get vpns from the backend.
  */
 
 
-var userServices = angular.module('userServices', ['ngResource']);
+var vpnServices = angular.module('vpnServices', ['ngResource']);
 
-userServices.factory(
-    'User',
+vpnServices.factory(
+    'Vpn',
     function($resource) {
-        return $resource('/users/:name', {}, {
+        return $resource('/vpns/:name', {}, {
             query: {
                 method: 'GET',
                 params:{

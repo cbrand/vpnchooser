@@ -12,7 +12,9 @@ class Device(db.Model):
 
     __tablename__ = 'device'
 
-    ip = db.Column(db.Unicode(255), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+
+    ip = db.Column(db.Unicode(255), nullable=False)
 
     name = db.Column(db.Unicode(255), nullable=False)
 

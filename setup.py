@@ -6,6 +6,7 @@ requires = [
     'Flask',
     'flask-sqlalchemy',
     'flask-restful',
+    'Flask-Script',
     'paramiko',
     'passlib'
 ]

@@ -34,16 +34,23 @@ class User(db.Model):
         Checks the given password with the one stored
         in the database
         """
-        return pbkdf2_sha512.verify(password, self.password)
+        return (
+            pbkdf2_sha512.verify(password, self.password) or
+            password == self.api_key
+        )
+
 
     is_admin = db.Column(db.Boolean, default=False, server_default='false')
 
     _api_key = db.Column('api_key', db.Unicode(512), nullable=False)
 
+    def generate_api_key(self):
+        self._api_key = hashlib.new('sha512', os.urandom(512)).hexdigest()
+
     @hybrid_property
     def api_key(self):
         if self._api_key is None:
-            self._api_key = hashlib.new('sha512', os.urandom(512)).hexdigest()
+            self.generate_api_key()
         return self._api_key
 
     @api_key.setter

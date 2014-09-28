@@ -137,3 +137,12 @@ node_modules
 
 ### Bower ###
 bower_components
+
+
+dev.cfg
+src/vpnchooser/static/dist/*.js
+src/vpnchooser/static/dist/*.map
+src/vpnchooser/static/dist/*.css
+
+test.db
+

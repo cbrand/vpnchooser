@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+from flask import request
 from flask.ext.restful import (
     Resource,
     fields,
@@ -12,7 +13,7 @@ from flask.ext.restful.reqparse import RequestParser
 from vpnchooser.helpers import (
     require_admin, require_login
 )
-from vpnchooser.helpers.fields import AbsoluteUrl
+from vpnchooser.helpers.fields import AbsoluteUrl, NullableAbsoluteUrl
 from vpnchooser.db import session, Device
 
 
@@ -35,11 +36,16 @@ parser.add_argument(
 )
 
 resource_fields = {
+    'id': fields.Integer,
     'ip': fields.String,
     'name': fields.String,
     'type': fields.String,
-    'vpn': AbsoluteUrl('vpn'),
-    'self': AbsoluteUrl('device'),
+    'vpn': NullableAbsoluteUrl('vpn', data_func=lambda obj: {
+        'vpn_name': obj.vpn_name
+    }),
+    'self': AbsoluteUrl('device', data_func=lambda obj: {
+        'device_id': obj.id
+    }),
 }
 
 
@@ -63,13 +69,13 @@ class DeviceResource(AbstractDeviceResource):
     """
 
     @staticmethod
-    def _get_by_ip(ip: str) -> Device:
+    def _get_by_id(device_id: int) -> Device:
         return session.query(Device).filter(
-            Device.ip == ip
+            Device.id == device_id
         ).first()
 
-    def _get_or_abort(self, device_ip: str):
-        device = self._get_by_ip(device_ip)
+    def _get_or_abort(self, device_id: int):
+        device = self._get_by_id(device_id)
         if device is None:
             abort(404)
         else:
@@ -78,43 +84,31 @@ class DeviceResource(AbstractDeviceResource):
 
     @require_login
     @marshal_with(resource_fields)
-    def get(self, device_ip: str) -> Device:
+    def get(self, device_id: int) -> Device:
         """
         Gets the Device Resource.
         """
-        return self._get_or_abort(device_ip)
+        return self._get_or_abort(device_id)
 
     @require_login
     @marshal_with(resource_fields)
-    def put(self, device_ip: str) -> Device:
+    def put(self, device_id: int) -> Device:
         """
         Updates the Device Resource with the
         name.
         """
-        device = self._get_or_abort(device_ip)
+        device = self._get_or_abort(device_id)
         self.update(device)
         session.commit()
         session.add(device)
         return device
 
     @require_login
-    @marshal_with(resource_fields)
-    def post(self, device_ip: str) -> Device:
-        device = Device()
-        device.name = device_ip
-        self.update(device)
-        session.commit()
-        session.add(device)
-        return device, 201, {
-            'Location': url_for('device', device_ip=device_ip)
-        }
-
-    @require_login
-    def delete(self, device_ip: str):
+    def delete(self, device_id: int):
         """
         Deletes the resource with the given name.
         """
-        device = self._get_or_abort(device_ip)
+        device = self._get_or_abort(device_id)
         session.delete(device)
         session.commit()
         return '', 204
@@ -128,4 +122,18 @@ class DeviceListResource(AbstractDeviceResource):
     @require_login
     @marshal_with(resource_fields)
     def get(self):
-        return list(session.query(Device))
+        devices = list(session.query(Device))
+        return devices
+
+    @require_login
+    @marshal_with(resource_fields)
+    def post(self) -> Device:
+        device = Device()
+        session.add(device)
+        self.update(device)
+        session.flush()
+        session.commit()
+        print('POST CALLED')
+        return device, 201, {
+            'Location': url_for('device', device_id=device.id)
+        }

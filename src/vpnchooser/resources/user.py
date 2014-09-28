@@ -39,7 +39,9 @@ resource_fields = {
     'name': fields.String,
     'is_admin': fields.Boolean,
     'api_key': fields.String,
-    'self': AbsoluteUrl('user'),
+    'self': AbsoluteUrl('user', data_func=lambda obj: {
+        'user_name': obj.name
+    }),
 }
 
 

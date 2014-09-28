@@ -32,10 +32,13 @@ parser.add_argument(
 )
 
 resource_fields = {
+    'id': fields.Integer,
     'name': fields.String,
     'description': fields.String,
     'table': fields.String,
-    'self': AbsoluteUrl('vpn'),
+    'self': AbsoluteUrl('vpn', data_func=lambda obj: {
+        'vpn_name': obj.name
+    }),
 }
 
 
@@ -45,7 +48,7 @@ class AbstractVpnResource(Resource):
     """
 
     @staticmethod
-    def update(vpn: Vpn) -> vpn:
+    def update(vpn: Vpn) -> Vpn:
         args = parser.parse_args()
         vpn.description = args.description
         vpn.table = args.table

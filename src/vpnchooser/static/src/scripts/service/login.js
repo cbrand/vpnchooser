@@ -1,13 +1,22 @@
-vpnChooserApp.factory('UserService', function ($http, $httpProvider, $q, $base64) {
+vpnChooserApp.factory('UserService', function ($http, $q, $base64) {
 
     return {
         name: null,
         api_key: null,
 
+        check_current: function() {
+            return $http({
+                method: 'GET',
+                url: '/users/' + name
+            });
+        },
+
+
         login: function (name, password) {
-            var self = this;
+            var self = this,
+                defer = $q.defer();
             self.name = name;
-            return $q(function (resolve, reject) {
+
 
                 $http({
                     method: 'GET',
@@ -17,20 +26,22 @@ vpnChooserApp.factory('UserService', function ($http, $httpProvider, $q, $base64
                     }
                 }).success(function (data, status) {
                     if (status != 200 || !data || !data.api_key) {
-                        reject();
+                        defer.reject();
                     }
                     var api_key = data.api_key;
+                    self.api_key = api_key;
 
-                    $httpProvider.defaults.header.common.Authorization = 'Basic ' + $base64.encode(
+                    $http.defaults.headers.common.Authorization = 'Basic ' + $base64.encode(
                             name + ':' + api_key
                     );
-                    resolve();
+                    defer.resolve();
 
                 }).error(function () {
-                    reject();
+                    $http.defaults.headers.common.Authorization = null;
+                    defer.reject();
                 });
 
-            });
+            return defer.promise;
         }
     }
 

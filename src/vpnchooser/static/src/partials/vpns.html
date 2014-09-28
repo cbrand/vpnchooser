@@ -1,0 +1,47 @@
+<ul class="devices-list">
+    <li
+            ng-repeat="device in devices"
+            ng-controller="deviceCtrl"
+            class="device-type-{{device.type}}">
+        <form name="deviceForm" ng-submit="save()">
+            <input
+                    name="name"
+                    type="text"
+                    ng-model="device.name"
+                    class="device-name"
+                    ng-blur="save()"
+                    placeholder="Name"
+                    required/>
+            <input
+                    name="ip"
+                    type="text"
+                    ng-model="device.ip"
+                    class="device-ip"
+                    ng-blur="save()"
+                    ng-pattern='/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/'
+                    placeholder='xxx.xxx.xxx.xxx'
+                    required/>
+            <select
+                    name="type"
+                    ng-model="device.type"
+                    ng-blur="save()"
+                    required>
+                <option
+                        value="{{deviceType.key}}"
+                        ng-repeat="deviceType in deviceTypes">
+                    {{deviceType.name}}
+                </option>
+            </select>
+        </form>
+        <button
+                class="delete-button"
+                ng-if="vpn.name"
+                ng-click="delete($event)"
+                >
+            Delete
+        </button>
+    </li>
+</ul>
+<button class="add-vpn" ng-click="add_vpn()">
+    Add device
+</button>
