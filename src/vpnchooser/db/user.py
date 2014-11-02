@@ -36,7 +36,7 @@ class User(db.Model):
         """
         return (
             pbkdf2_sha512.verify(password, self.password) or
-            password == self.api_key
+            pbkdf2_sha512.verify(password, pbkdf2_sha512.encrypt(self.api_key))
         )
 
 

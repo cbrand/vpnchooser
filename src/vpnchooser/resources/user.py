@@ -29,10 +29,6 @@ parser.add_argument(
     'is_admin', type=bool,
     required=False,
 )
-parser.add_argument(
-    'api_key', type=str,
-    required=False,
-)
 
 
 resource_fields = {
@@ -53,11 +49,11 @@ class AbstractUserResource(Resource):
     @staticmethod
     def update(user: User) -> User:
         args = parser.parse_args()
-        user.name = args.name
-        user.is_admin = args.is_admin
-        user.api_key = args.api_key
+        if current_user().is_admin:
+            user.is_admin = args.is_admin
         if args.password:
             user.password = args.password
+            user.generate_api_key()
         return user
 
 
