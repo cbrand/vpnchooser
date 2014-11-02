@@ -61,13 +61,13 @@ class VpnResource(AbstractVpnResource):
     """
 
     @staticmethod
-    def _get_by_name(vpn_name: str) -> Vpn:
+    def _get_by_name(vpn_id: int) -> Vpn:
         return session.query(Vpn).filter(
-            Vpn.name == vpn_name
+            Vpn.id == vpn_id
         ).first()
 
-    def _get_or_abort(self, vpn_name: str):
-        vpn = self._get_by_name(vpn_name)
+    def _get_or_abort(self, vpn_id: int):
+        vpn = self._get_by_name(vpn_id)
         if vpn is None:
             abort(404)
         else:
@@ -76,39 +76,39 @@ class VpnResource(AbstractVpnResource):
 
     @require_login
     @marshal_with(resource_fields)
-    def get(self, vpn_name: str) -> Vpn:
+    def get(self, vpn_id: int) -> Vpn:
         """
         Gets the VPN Resource.
         """
-        return self._get_or_abort(vpn_name)
+        return self._get_or_abort(vpn_id)
 
     @require_admin
     @marshal_with(resource_fields)
-    def put(self, vpn_name: str) -> Vpn:
+    def put(self, vpn_id: int) -> Vpn:
         """
         Updates the Vpn Resource with the
         name.
         """
-        vpn = self._get_or_abort(vpn_name)
+        vpn = self._get_or_abort(vpn_id)
         self.update(vpn)
         session.commit()
         return vpn
 
     @require_admin
     @marshal_with(resource_fields)
-    def post(self, vpn_name: str) -> Vpn:
+    def post(self, vpn_id: int) -> Vpn:
         vpn = Vpn()
-        vpn.name = vpn_name
+        vpn.name = vpn_id
         return vpn, 201, {
-            'Location': url_for('vpn', vpn_name=vpn_name)
+            'Location': url_for('vpn', vpn_name=vpn_id)
         }
 
     @require_admin
-    def delete(self, vpn_name: str):
+    def delete(self, vpn_id: int):
         """
         Deletes the resource with the given name.
         """
-        vpn = self._get_or_abort(vpn_name)
+        vpn = self._get_or_abort(vpn_id)
         session.delete(vpn)
         session.commit()
         return '', 204
