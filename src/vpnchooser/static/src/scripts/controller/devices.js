@@ -7,12 +7,12 @@ vpnChooserControllers.controller('devicesCtrl', function ($scope, Device, Device
         newDevice.type = 'pc';
         newDevice.is_new = true;
         $scope.devices.push(newDevice);
-    }
+    };
 
 });
 
 
-vpnChooserControllers.controller('deviceCtrl', function ($scope, Device, DeviceType) {
+vpnChooserControllers.controller('deviceCtrl', function ($scope, $timeout, Device, DeviceType) {
     $scope.deviceTypes = DeviceType;
 
     $scope.save = function () {
@@ -33,8 +33,8 @@ vpnChooserControllers.controller('deviceCtrl', function ($scope, Device, DeviceT
         var device = $scope.device;
 
         if (device.id) {
-            Device.delete({id: device.id}, function() {
-                var device_ids = $scope.devices.map(function(device) {
+            Device.delete({id: device.id}, function () {
+                var device_ids = $scope.devices.map(function (device) {
                     return device.id
                 });
                 $scope.devices.splice(
@@ -43,6 +43,33 @@ vpnChooserControllers.controller('deviceCtrl', function ($scope, Device, DeviceT
                 );
             });
         }
-    }
+    };
+
+    $scope.selectDeviceType = function (type) {
+        $scope.device.type = type.key;
+        $scope.save();
+    };
+
+    Object.defineProperty($scope, 'selectedDeviceTypeText', {
+        get: function() {
+            var deviceTypeKey = $scope.device.type;
+            var selectedDeviceTypes = $scope.deviceTypes.filter(
+                function(deviceType) {
+                    return deviceType.key == deviceTypeKey;
+                }
+            );
+            if(selectedDeviceTypes.length) {
+                return selectedDeviceTypes[0].name;
+            }
+            else {
+                return "Device type";
+            }
+        }
+    });
+
+    $(".ui.selection.dropdown").dropdown({
+        action: 'updateForm'
+    });
+
 
 });

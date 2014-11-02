@@ -10,7 +10,7 @@ var vpnServices = angular.module('vpnServices', ['ngResource']);
 vpnServices.factory(
     'Vpn',
     function($resource) {
-        return $resource('/vpns/:name', {}, {
+        return $resource('/vpns/:id', {}, {
             query: {
                 method: 'GET',
                 params:{

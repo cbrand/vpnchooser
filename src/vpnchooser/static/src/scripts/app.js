@@ -8,11 +8,14 @@ var vpnChooserApp = angular.module('vpnChooserApp', [
     'vpnChooserControllers',
     'ui.router',
     'base64',
-    'ngResource'
+    'ngResource',
+    'LocalStorageModule'
 ]);
 
 
-vpnChooserApp.config(function($stateProvider, $urlRouterProvider, $resourceProvider) {
+vpnChooserApp.config(function($stateProvider, $urlRouterProvider, $resourceProvider, localStorageServiceProvider) {
+
+    localStorageServiceProvider.setPrefix('scnet.vpnchooser');
 
     $resourceProvider.defaults.stripTrailingSlashes = false;
 
@@ -27,7 +30,13 @@ vpnChooserApp.config(function($stateProvider, $urlRouterProvider, $resourceProvi
             url: '/login',
             templateUrl: 'src/partials/login.html',
             controller: 'loginCtrl'
-        }).state('deviceList', {
+        })
+        .state('vpnList', {
+            url: '/vpns',
+            templateUrl: 'src/partials/vpns.html',
+            controller: 'vpnsCtrl'
+        })
+        .state('deviceList', {
             url: '/devices',
             templateUrl: 'src/partials/devices.html',
             controller: 'devicesCtrl'
