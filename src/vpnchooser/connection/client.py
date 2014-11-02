@@ -134,7 +134,9 @@ class Client(object):
         self._create_directory_structure()
         config_data = '\n'.join(rule.config_string for rule in rules)
         sftp = self.client.open_sftp()
-        with sftp.open(self.rule_location, 'w') as file_handle:
-            file_handle.write(config_data)
-            file_handle.write('\n')
-        sftp.close()
+        try:
+            with sftp.open(self.rule_location, 'w') as file_handle:
+                file_handle.write(config_data)
+                file_handle.write('\n')
+        finally:
+            sftp.close()
