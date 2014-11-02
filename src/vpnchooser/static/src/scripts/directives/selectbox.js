@@ -17,6 +17,7 @@ vpnChooserApp.directive('ngSelectBox', function ($timeout) {
             ngCollectionKey: '@',
             ngCollectionText: '@',
             ngCollectionDefaultText: '@',
+            ngNullName: '@',
             ngChoose: '&'
         },
         replace: true,
@@ -38,10 +39,21 @@ vpnChooserApp.directive('ngSelectBox', function ($timeout) {
                 }
             });
 
-            $scope.selectItem = function(item) {
-                var newKey = item[$scope.ngCollectionKey];
+            Object.defineProperty($scope, 'showEmptyOption', {
+                get: function() {
+                    if($scope.ngNullName) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+
+            $scope.selectItem = function(option) {
+                var newKey = option && option.key;
                 if($scope.ngModel != newKey) {
                     $scope.ngModel = newKey;
+                    $scope.selected = option ? option.value : -1;
                     $timeout(function() {
                         $scope.ngChoose && $scope.ngChoose(newKey);
                     });
@@ -49,9 +61,35 @@ vpnChooserApp.directive('ngSelectBox', function ($timeout) {
             };
 
             $timeout(function() {
-                $($element).dropdown()
-                ;
+                $element.dropdown();
+                $scope.$watchCollection('ngCollection', function() {
+                    $timeout(function() {
+                        $element.dropdown();
+                    }, 1);
+                });
             });
+
+            $scope.selected = -1;
+            var update_collection = function() {
+                var options = $scope.options = [];
+                $scope.optionsLookup = {};
+                $scope.ngCollection.forEach(function(item, index) {
+                    var option = {
+                        value: index + 1,
+                        text: item[$scope.ngCollectionText],
+                        key: item[$scope.ngCollectionKey]
+                    };
+                    options.push(option);
+
+                    $scope.optionsLookup[option.key] = option;
+                    if($scope.ngModel == option.key) {
+                        $scope.selected = option.value;
+                    }
+                });
+            };
+
+            $scope.$watchCollection('ngCollection', update_collection);
+            update_collection();
 
         },
         templateUrl: 'src/partials/directives/select_box.html'

@@ -1,8 +1,7 @@
 <div class="ui selection dropdown ">
     <input name="{{ngName}}"
            type="hidden"
-           ng-model="ngModel"
-           value="{{ngModel}}"
+           value="{{selected}}"
             />
 
     <div class="text default">
@@ -12,11 +11,18 @@
 
     <div class="menu transition hidden">
         <div class="item"
-             data-value="{{item[ngCollectionKey]}}"
-             ng-repeat="item in ngCollection"
-             ng-click="selectItem(item)"
+             ng-if="showEmptyOption"
+             ng-click="selectItem(null)"
+             data-value="-1">
+            {{ngNullName}}
+         </div>
+
+        <div class="item"
+             data-value="{{option.value}}"
+             ng-repeat="option in options"
+             ng-click="selectItem(option)"
              >
-            {{item[ngCollectionText]}}
+            {{option.text}}
         </div>
     </div>
 </div>
