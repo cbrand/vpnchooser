@@ -8,10 +8,10 @@
     <script type="text/javascript" src="dist/app.js"></script>
 </head>
 <body>
-    <div class="ui labeled icon menu">
-        <a class="item"><i class="desktop icon"></i>Devices</a>
-        <a class="item"><i class="upload disk icon"></i>VPNs</a>
-        <a class="item"><i class="wrench icon"></i>Routers</a>
+    <div class="ui labeled icon menu" ng-controller="menuCtrl">
+        <a class="item" href="#/devices" ng-if="isAuthenticated()"><i class="desktop icon"></i>Devices</a>
+        <a class="item" href="#/vpns" ng-if="isAuthenticated()"><i class="upload disk icon"></i>VPNs</a>
+        <a class="item"><i class="wrench icon" ng-if="isAuthenticated()"></i>Routers</a>
     </div>
     <div ui-view></div>
 </body>
