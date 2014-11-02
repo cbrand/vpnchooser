@@ -43,6 +43,10 @@ vpnChooserControllers.controller('vpnCtrl', function ($scope, $timeout, Vpn, Use
         }
     };
 
+    $scope.disabled = function() {
+        return !$scope.is_admin;
+    };
+
     $scope.displayDeleteButton = function() {
         return $scope.vpn.id && $scope.is_admin;
     };

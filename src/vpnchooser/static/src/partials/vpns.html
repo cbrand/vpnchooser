@@ -15,6 +15,7 @@
                         class="vpn-name"
                         ng-blur="save()"
                         placeholder="Name"
+                        ng-disabled="disabled"
                         required/>
             </div>
             <div class="column field">
@@ -25,6 +26,7 @@
                         class="vpn-description"
                         ng-blur="save()"
                         placeholder="Description"
+                        ng-disabled="disabled"
                         required
                         />
             </div>
@@ -36,6 +38,7 @@
                         class="vpn-table"
                         ng-blur="save()"
                         placeholder="VPN Table Number"
+                        ng-disabled="disabled"
                         required
                         />
             </div>
