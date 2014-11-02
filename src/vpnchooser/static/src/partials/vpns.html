@@ -26,8 +26,10 @@
         ng-controller="vpnCtrl"
         ng-if="!disabled"
         ng-form="vpnForm"
+        ng-submit="save()"
         class="ui form">
-            <td class="field">
+        <td class="field">
+            <div class="ui left labeled input">
                 <input
                         name="name"
                         type="text"
@@ -36,8 +38,15 @@
                         ng-blur="save()"
                         placeholder="Name"
                         required/>
-            </td>
-            <td class="field">
+
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+
+        </td>
+        <td class="field">
+            <div class="ui left labeled input">
                 <input
                         name="description"
                         type="text"
@@ -47,8 +56,10 @@
                         placeholder="Description"
                         required
                         />
-            </td>
-            <td class="field">
+            </div>
+        </td>
+        <td class="field">
+            <div class="ui left labeled input">
                 <input
                         name="table"
                         type="text"
@@ -58,7 +69,12 @@
                         placeholder="VPN Table Number"
                         required
                         />
-            </td>
+
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+        </td>
         <td class="aligned right" align="right">
             <button
                     class="delete-button teal ui button"
