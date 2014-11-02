@@ -43,13 +43,4 @@ vpnChooserControllers.controller('vpnCtrl', function ($scope, $timeout, Vpn) {
         }
     };
 
-    $timeout(function() {
-        $('.ui.selection.dropdown')
-            .dropdown({
-                action: 'updateForm'
-            })
-        ;
-    }, 100);
-
-
 });

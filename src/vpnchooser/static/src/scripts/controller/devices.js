@@ -45,31 +45,4 @@ vpnChooserControllers.controller('deviceCtrl', function ($scope, $timeout, Devic
         }
     };
 
-    $scope.selectDeviceType = function (type) {
-        $scope.device.type = type.key;
-        $scope.save();
-    };
-
-    Object.defineProperty($scope, 'selectedDeviceTypeText', {
-        get: function() {
-            var deviceTypeKey = $scope.device.type;
-            var selectedDeviceTypes = $scope.deviceTypes.filter(
-                function(deviceType) {
-                    return deviceType.key == deviceTypeKey;
-                }
-            );
-            if(selectedDeviceTypes.length) {
-                return selectedDeviceTypes[0].name;
-            }
-            else {
-                return "Device type";
-            }
-        }
-    });
-
-    $(".ui.selection.dropdown").dropdown({
-        action: 'updateForm'
-    });
-
-
 });
