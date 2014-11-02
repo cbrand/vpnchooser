@@ -5,7 +5,7 @@
             ng-controller="deviceCtrl"
             class="device-type-{{device.type}} item">
         <form name="deviceForm"
-              class="four column ui form grid"
+              class="five column doubling ui form grid"
               ng-submit="save()">
             <div class="column field">
                 <input
@@ -39,9 +39,22 @@
                         ng-collection-default-text="Device type"
                         />
             </div>
-            <div class="column right floated narrow">
+            <div class="column field">
+                <ng-select-box
+                        ng-model="device.vpn"
+                        ng-name="vpn"
+                        ng-choose="save()"
+                        ng-collection="vpns"
+                        ng-collection-key="self"
+                        ng-collection-text="name"
+                        ng-collection-default-text="VPN"
+                        ng-null-name="-- No VPN --"
+                        />
+            </div>
+
+            <div class="column narrow right aligned segment">
                 <button
-                    class="delete-button tiny teal ui button"
+                    class="delete-button teal ui button floated right"
                     ng-if="device.id"
                     ng-click="delete($event)"
                     >
@@ -51,8 +64,12 @@
         </form>
     </div>
 
-    <button class="add-device" ng-click="add_device()">
-        Add device
-    </button>
+    <div class="ui item grid one">
+        <div class="column right aligned segment">
+            <button class="add-device ui black button" ng-click="add_device()">
+                <i class="icon add"></i> Add device
+            </button>
+        </div>
+    </div>
 
 </div>

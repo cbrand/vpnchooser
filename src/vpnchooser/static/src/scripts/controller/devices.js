@@ -12,7 +12,7 @@ vpnChooserControllers.controller('devicesCtrl', function ($scope, Device, Device
 });
 
 
-vpnChooserControllers.controller('deviceCtrl', function ($scope, $timeout, Device, DeviceType) {
+vpnChooserControllers.controller('deviceCtrl', function ($scope, $q, $timeout, Device, DeviceType, Vpn) {
     $scope.deviceTypes = DeviceType;
 
     $scope.save = function () {
@@ -35,7 +35,7 @@ vpnChooserControllers.controller('deviceCtrl', function ($scope, $timeout, Devic
         if (device.id) {
             Device.delete({id: device.id}, function () {
                 var device_ids = $scope.devices.map(function (device) {
-                    return device.id
+                    return device.id;
                 });
                 $scope.devices.splice(
                     device_ids.indexOf(device.id),
@@ -44,5 +44,7 @@ vpnChooserControllers.controller('deviceCtrl', function ($scope, $timeout, Devic
             });
         }
     };
+
+    $scope.vpns = Vpn.query();
 
 });
