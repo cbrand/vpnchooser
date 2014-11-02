@@ -11,7 +11,9 @@ class Vpn(db.Model):
 
     __tablename__ = 'vpn'
 
-    name = db.Column(db.Unicode(255), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.Unicode(255), nullable=False)
 
     description = db.Column(db.Unicode(255), nullable=False)
 
