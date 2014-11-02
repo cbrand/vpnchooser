@@ -40,6 +40,9 @@ vpnChooserApp.config(function($stateProvider, $urlRouterProvider, $resourceProvi
             url: '/devices',
             templateUrl: 'src/partials/devices.html',
             controller: 'devicesCtrl'
+        }).state('logout', {
+            url: '/logout',
+            controller: 'logoutCtrl'
         })
     ;
 }).factory('authHttpResponseInterceptor',['$q','$location',function($q,$location){

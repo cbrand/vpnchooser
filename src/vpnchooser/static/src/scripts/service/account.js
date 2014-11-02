@@ -27,6 +27,17 @@ userService.factory('UserService', function ($http, $q, $base64, localStorageSer
             }
         },
 
+        logout: function() {
+            var self = this;
+            if(localStorageService.isSupported) {
+                localStorageService.clearAll();
+            }
+            self.user_name = null;
+            self.api_key = null;
+            self.authenticated = false;
+            $http.defaults.headers.common.Authorization = null;
+        },
+
         setApiKey: function(user_name, api_key) {
             var self = this;
             $http.defaults.headers.common.Authorization = 'Basic ' + $base64.encode(
@@ -87,7 +98,7 @@ userService.factory('UserService', function ($http, $q, $base64, localStorageSer
                     defer.resolve();
 
                 }).error(function () {
-                    $http.defaults.headers.common.Authorization = null;
+                    self.logout();
                     defer.reject();
                 });
 
