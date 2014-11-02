@@ -4,15 +4,10 @@
             ng-repeat="device in devices"
             ng-controller="deviceCtrl"
             class="device-type-{{device.type}} item">
-        <button
-                class="delete-button right floated tiny teal ui button"
-                ng-if="device.id"
-                ng-click="delete($event)"
-                >
-            Delete
-        </button>
-        <form name="deviceForm" ng-submit="save()">
-            <div class="ui left input">
+        <form name="deviceForm"
+              class="four column ui form grid"
+              ng-submit="save()">
+            <div class="column field">
                 <input
                         name="name"
                         type="text"
@@ -22,7 +17,7 @@
                         placeholder="Name"
                         required/>
             </div>
-            <div class="ui left input">
+            <div class="column field">
                 <input
                         name="ip"
                         type="text"
@@ -33,17 +28,25 @@
                         placeholder='xxx.xxx.xxx.xxx'
                         required/>
             </div>
-
-            <div class="ui left input">
+            <div class="column field">
                 <ng-select-box
-                    ng-model="device.type"
-                    ng-name="type"
-                    ng-choose="save()"
-                    ng-collection="deviceTypes"
-                    ng-collection-key="key"
-                    ng-collection-text="name"
-                    ng-collection-default-text="Device type"
-                />
+                        ng-model="device.type"
+                        ng-name="type"
+                        ng-choose="save()"
+                        ng-collection="deviceTypes"
+                        ng-collection-key="key"
+                        ng-collection-text="name"
+                        ng-collection-default-text="Device type"
+                        />
+            </div>
+            <div class="column right floated narrow">
+                <button
+                    class="delete-button tiny teal ui button"
+                    ng-if="device.id"
+                    ng-click="delete($event)"
+                    >
+                    Delete
+                </button>
             </div>
         </form>
     </div>
