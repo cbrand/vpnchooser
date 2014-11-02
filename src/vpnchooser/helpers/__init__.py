@@ -7,3 +7,5 @@ from .decorators import (
     require_login,
     require_admin
 )
+
+from .parser import id_from_url

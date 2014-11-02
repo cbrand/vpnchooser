@@ -11,10 +11,11 @@ from flask.ext.restful import (
 from flask.ext.restful.reqparse import RequestParser
 
 from vpnchooser.helpers import (
-    require_admin, require_login
+    require_admin, require_login,
+    id_from_url
 )
 from vpnchooser.helpers.fields import AbsoluteUrl, NullableAbsoluteUrl
-from vpnchooser.db import session, Device
+from vpnchooser.db import session, Device, Vpn
 
 
 parser = RequestParser()
@@ -41,7 +42,7 @@ resource_fields = {
     'name': fields.String,
     'type': fields.String,
     'vpn': NullableAbsoluteUrl('vpn', data_func=lambda obj: {
-        'vpn_name': obj.vpn_name
+        'vpn_id': obj.vpn_id
     }),
     'self': AbsoluteUrl('device', data_func=lambda obj: {
         'device_id': obj.id
@@ -55,11 +56,25 @@ class AbstractDeviceResource(Resource):
     """
 
     @staticmethod
-    def update(device: Device) -> Device:
+    def _update_vpn(args, device: Device) -> Device:
+        if args.vpn:
+            try:
+                vpn_id = id_from_url(args.vpn, 'vpn_id')
+                device.vpn = session.query(Vpn).filter(
+                    Vpn.id == vpn_id
+                ).first()
+            except ValueError:
+                device.vpn_id = None
+        else:
+            device.vpn_id = None
+        return device
+
+    def update(self, device: Device) -> Device:
         args = parser.parse_args()
         device.ip = args.ip
         device.name = args.name
         device.type = args.type
+        self._update_vpn(args, device)
         return device
 
 

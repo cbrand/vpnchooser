@@ -19,7 +19,7 @@ from vpnchooser.db import session, Vpn
 parser = RequestParser()
 parser.add_argument(
     'name', type=str,
-    # required=True,
+    required=True,
     help='The name of the vpn.'
 )
 parser.add_argument(
@@ -37,7 +37,7 @@ resource_fields = {
     'description': fields.String,
     'table': fields.String,
     'self': AbsoluteUrl('vpn', data_func=lambda obj: {
-        'vpn_name': obj.name
+        'vpn_id': obj.id
     }),
 }
 
@@ -50,6 +50,7 @@ class AbstractVpnResource(Resource):
     @staticmethod
     def update(vpn: Vpn) -> Vpn:
         args = parser.parse_args()
+        vpn.name = args.name
         vpn.description = args.description
         vpn.table = args.table
         return vpn
@@ -95,15 +96,6 @@ class VpnResource(AbstractVpnResource):
         return vpn
 
     @require_admin
-    @marshal_with(resource_fields)
-    def post(self, vpn_id: int) -> Vpn:
-        vpn = Vpn()
-        vpn.name = vpn_id
-        return vpn, 201, {
-            'Location': url_for('vpn', vpn_name=vpn_id)
-        }
-
-    @require_admin
     def delete(self, vpn_id: int):
         """
         Deletes the resource with the given name.
@@ -123,3 +115,18 @@ class VpnListResource(AbstractVpnResource):
     @marshal_with(resource_fields)
     def get(self):
         return list(session.query(Vpn))
+
+    @require_admin
+    @marshal_with(resource_fields)
+    def post(self) -> Vpn:
+        """
+        Creates the vpn with the given data.
+        """
+        vpn = Vpn()
+        session.add(vpn)
+        self.update(vpn)
+        session.flush()
+        session.commit()
+        return vpn, 201, {
+            'Location': url_for('vpn', vpn_id=vpn.id)
+        }

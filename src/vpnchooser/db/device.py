@@ -20,9 +20,9 @@ class Device(db.Model):
 
     type = db.Column(db.Unicode(255), nullable=True)
 
-    vpn_name = db.Column(
-        db.Unicode(255),
-        db.ForeignKey('vpn.name'),
+    vpn_id = db.Column(
+        db.Integer,
+        db.ForeignKey('vpn.id'),
         nullable=True
     )
 
