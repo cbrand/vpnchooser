@@ -11,9 +11,9 @@ class Rule(object):
     address range.
     """
 
-    def __init__(self):
-        self.ip = None
-        self.table = None
+    def __init__(self, ip=None, table=None):
+        self.ip = ip
+        self.table = table
 
     @property
     def add_command(self) -> str:
@@ -54,3 +54,6 @@ class Rule(object):
         if not isinstance(other, Rule):
             return False
         return other.ip == self.ip and other.table == self.table
+
+    def __hash__(self):
+        return self.ip.__hash__() + self.table.__hash__() ** 32
