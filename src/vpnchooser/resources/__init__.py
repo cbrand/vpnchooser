@@ -23,7 +23,7 @@ api.add_resource(
     endpoint='vpn_list')
 api.add_resource(
     VpnResource,
-    '/vpns/<string:vpn_name>',
+    '/vpns/<int:vpn_id>',
     endpoint='vpn'
 )
 api.add_resource(
