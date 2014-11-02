@@ -1,4 +1,7 @@
-vpnChooserApp.factory('UserService', function ($http, $q, $base64, localStorageService) {
+
+var userService = angular.module('UserService', ['base64', 'LocalStorageModule']);
+
+userService.factory('UserService', function ($http, $q, $base64, localStorageService) {
 
     var userService = {
         name: null,
@@ -35,6 +38,7 @@ vpnChooserApp.factory('UserService', function ($http, $q, $base64, localStorageS
             }
             self.user_name = user_name;
             self.api_key = api_key;
+            self.authenticated = true;
         },
 
         isAuthenticated: function() {
@@ -51,7 +55,8 @@ vpnChooserApp.factory('UserService', function ($http, $q, $base64, localStorageS
                         defer.reject();
                     }
                     else {
-                        defer.resolve();
+                        self.is_admin = data.is_admin;
+                        defer.resolve(data);
                     }
                 });
             } else {

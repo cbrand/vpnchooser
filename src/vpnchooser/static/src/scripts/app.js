@@ -62,4 +62,7 @@ vpnChooserApp.config(function($stateProvider, $urlRouterProvider, $resourceProvi
 .config(['$httpProvider',function($httpProvider) {
     //Http Intercpetor to check auth failures for xhr requests
     $httpProvider.interceptors.push('authHttpResponseInterceptor');
-}]);
+}])
+.run(function(UserService) {
+    UserService.isAuthenticated();
+});
