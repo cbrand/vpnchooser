@@ -133,7 +133,6 @@ class DeviceListResource(AbstractDeviceResource):
         self.update(device)
         session.flush()
         session.commit()
-        print('POST CALLED')
         return device, 201, {
             'Location': url_for('device', device_id=device.id)
         }
