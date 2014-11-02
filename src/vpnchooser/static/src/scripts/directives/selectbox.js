@@ -5,7 +5,7 @@
  * box correctly.
  */
 
-vpnChooserApp.directive('ngSelectBox', function () {
+vpnChooserApp.directive('ngSelectBox', function ($timeout) {
     return {
         restrict: 'AE',
         require: '^ngModel ^ngName ^ngCollection ^ngCollectionKey ngCollectionText',
@@ -15,11 +15,12 @@ vpnChooserApp.directive('ngSelectBox', function () {
             ngName: '@',
             ngCollection: '=',
             ngCollectionKey: '@',
-            ngCollectionText: '@'
+            ngCollectionText: '@',
+            ngCollectionDefaultText: '@',
+            ngChoose: '&'
         },
         replace: true,
-        controller: function($scope) {
-
+        controller: function($scope, $element) {
             Object.defineProperty($scope, 'selectedText', {
                 get: function() {
                     var typeKey = $scope.ngModel,
@@ -38,8 +39,19 @@ vpnChooserApp.directive('ngSelectBox', function () {
             });
 
             $scope.selectItem = function(item) {
-                $scope.ngModel = item[$scope.ngCollectionKey];
+                var newKey = item[$scope.ngCollectionKey];
+                if($scope.ngModel != newKey) {
+                    $scope.ngModel = newKey;
+                    $timeout(function() {
+                        $scope.ngChoose && $scope.ngChoose(newKey);
+                    });
+                }
             };
+
+            $timeout(function() {
+                $($element).dropdown()
+                ;
+            });
 
         },
         templateUrl: 'src/partials/directives/select_box.html'

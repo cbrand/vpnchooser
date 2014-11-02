@@ -1,20 +1,20 @@
 <div class="ui selection dropdown ">
     <input name="{{ngName}}"
            type="hidden"
-           ng-model="ngModel"
+           value="{{ngModel}}"
             />
 
-    <div class="text" ng-class="{default: !ngModel}">
-        {{selectedText}}
+    <div class="text default">
+        {{ngCollectionDefaultText}}
     </div>
     <i class="dropdown icon"></i>
 
     <div class="menu transition hidden">
         <div class="item"
-             data-value="{{ngCollection[ngCollectionKey]}}"
+             data-value="{{item[ngCollectionKey]}}"
              ng-repeat="item in ngCollection"
-             ng-class="{active: item[ngCollectionKey] == ngModel}"
-             ng-click="selectItem(item)">
+             ng-click="selectItem(item)"
+             >
             {{item[ngCollectionText]}}
         </div>
     </div>
