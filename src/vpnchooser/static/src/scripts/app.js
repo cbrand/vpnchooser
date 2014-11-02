@@ -47,6 +47,10 @@ vpnChooserApp.config(function ($stateProvider, $urlRouterProvider, $resourceProv
             url: '/account',
             templateUrl: 'src/partials/account.html',
             controller: 'accountCtrl'
+        }).state('users', {
+            url: '/users',
+            templateUrl: 'src/partials/users.html',
+            controller: 'usersCtrl'
         })
     ;
 }).factory('authHttpResponseInterceptor', ['$q', '$location', function ($q, $location) {

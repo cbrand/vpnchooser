@@ -1,0 +1,30 @@
+<table class="ui table segment">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr
+            ng-repeat="user in users"
+            ng-controller="userCtrl">
+        <td>{{user.name}}</td>
+        <td>
+            <button class="add-vpn ui tiny red button"
+                    >
+                <i class="icon lock"></i> Change password
+            </button>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+               <button class="add-vpn ui tiny green button" ng-click="addUser()">
+                    <i class="icon plus user"></i> Add user
+                </button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
