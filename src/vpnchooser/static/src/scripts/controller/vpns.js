@@ -6,8 +6,13 @@ vpnChooserControllers.controller('vpnsCtrl', function ($scope, Vpn, UserService)
     $scope.add_vpn = function () {
         var newVpn = new Vpn();
         $scope.vpns.push(newVpn);
-    }
+    };
 
+    Object.defineProperty($scope, 'disabled', {
+        get: function() {
+            return !UserService.is_admin;
+        }
+    });
 
 });
 

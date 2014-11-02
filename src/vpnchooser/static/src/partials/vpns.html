@@ -1,13 +1,33 @@
-<div class="ui divided list">
-    <div
-            ng-repeat="vpn in vpns"
-            class="item"
-            ng-controller="vpnCtrl">
+<table class="ui table segment">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Table</th>
+        <th ng-if="!disabled"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="vpn in vpns"
+        ng-controller="vpnCtrl"
+        ng-if="disabled">
+        <td>
+            {{vpn.name}}
+        </td>
+        <td>
+            {{vpn.description}}
+        </td>
+        <td>
+            {{vpn.table}}
+        </td>
+    </tr>
 
-        <form name="vpnForm"
-              class="four column ui form grid"
-              ng-submit="save()">
-            <div class="column field">
+    <tr ng-repeat="vpn in vpns"
+        ng-controller="vpnCtrl"
+        ng-if="!disabled"
+        ng-form="vpnForm"
+        class="ui form">
+            <td class="field">
                 <input
                         name="name"
                         type="text"
@@ -15,10 +35,9 @@
                         class="vpn-name"
                         ng-blur="save()"
                         placeholder="Name"
-                        ng-disabled="disabled"
                         required/>
-            </div>
-            <div class="column field">
+            </td>
+            <td class="field">
                 <input
                         name="description"
                         type="text"
@@ -26,11 +45,10 @@
                         class="vpn-description"
                         ng-blur="save()"
                         placeholder="Description"
-                        ng-disabled="disabled"
                         required
                         />
-            </div>
-            <div class="column field">
+            </td>
+            <td class="field">
                 <input
                         name="table"
                         type="text"
@@ -38,23 +56,31 @@
                         class="vpn-table"
                         ng-blur="save()"
                         placeholder="VPN Table Number"
-                        ng-disabled="disabled"
                         required
                         />
-            </div>
-            <div class="column">
-                <button
-                        class="delete-button right floated tiny teal ui button"
-                        ng-if="displayDeleteButton()"
-                        ng-click="delete($event)"
-                        >
-                    Delete
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+            </td>
+        <td class="aligned right" align="right">
+            <button
+                    class="delete-button teal ui button"
+                    ng-if="displayDeleteButton()"
+                    ng-click="delete($event)"
+                    >
+                Delete
+            </button>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot ng-if="!disabled">
+    <tr>
+        <td colspan="4">
+            <button class="add-vpn ui black button" ng-click="add_vpn()"
+                    ng-if="!disabled">
+                Add vpn
+            </button>
+        </td>
+    </tr>
+    </tfoot>
+</table>
 
-<button class="add-vpn" ng-click="add_vpn()">
-    Add vpn
-</button>
+
+
