@@ -15,13 +15,13 @@ vpnChooserControllers.controller('vpnCtrl', function ($scope, $timeout, Vpn) {
 
     $scope.save = function () {
         var vpn = $scope.vpn;
-        if ($scope.deviceForm.$valid) {
+        if ($scope.vpnForm.$valid) {
             if (!vpn.id) {
-                Device.save(vpn, function (vpn_return) {
+                Vpn.save(vpn, function (vpn_return) {
                     $scope.vpn = vpn_return;
                 });
             } else {
-                Device.update({id: vpn.id}, vpn);
+                Vpn.update({id: vpn.id}, vpn);
             }
         }
     };

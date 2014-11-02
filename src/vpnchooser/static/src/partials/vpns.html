@@ -1,8 +1,17 @@
-<ul class="vpns-list">
-    <li
-            ng-repeat="vpn in vpns"
-            ng-controller="vpnCtrl">
-        <form name="vpnForm" ng-submit="save()">
+
+<div
+        ng-repeat="vpn in vpns"
+        ng-controller="vpnCtrl">
+    <button
+            class="delete-button right floated tiny teal ui button"
+            ng-if="vpn.id"
+            ng-click="delete($event)"
+            >
+        Delete
+    </button>
+
+    <form name="vpnForm" ng-submit="save()">
+        <div class="ui left input">
             <input
                     name="name"
                     type="text"
@@ -11,24 +20,32 @@
                     ng-blur="save()"
                     placeholder="Name"
                     required/>
-            <textarea
+        </div>
+        <div class="ui left input">
+            <input
                     name="description"
+                    type="text"
                     ng-model="vpn.description"
                     class="vpn-description"
                     ng-blur="save()"
-                    placeholder="Beschreibung"
+                    placeholder="Description"
                     required
-                    ></textarea>
-        </form>
-        <button
-                class="delete-button"
-                ng-if="vpn.id"
-                ng-click="delete($event)"
-                >
-            Delete
-        </button>
-    </li>
-</ul>
+                    />
+        </div>
+        <div class="ui left input">
+            <input
+                    name="table"
+                    type="text"
+                    ng-model="vpn.table"
+                    class="vpn-table"
+                    ng-blur="save()"
+                    placeholder="VPN Table Number"
+                    required
+                    />
+        </div>
+    </form>
+</div>
+
 <button class="add-vpn" ng-click="add_vpn()">
-    Add device
+    Add vpn
 </button>
