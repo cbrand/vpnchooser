@@ -42,7 +42,7 @@
             <div class="column">
                 <button
                         class="delete-button right floated tiny teal ui button"
-                        ng-if="vpn.id"
+                        ng-if="displayDeleteButton()"
                         ng-click="delete($event)"
                         >
                     Delete

@@ -11,7 +11,7 @@ vpnChooserControllers.controller('vpnsCtrl', function ($scope, Vpn, UserService)
 
 });
 
-vpnChooserControllers.controller('vpnCtrl', function ($scope, $timeout, Vpn) {
+vpnChooserControllers.controller('vpnCtrl', function ($scope, $timeout, Vpn, UserService) {
 
     $scope.save = function () {
         var vpn = $scope.vpn;
@@ -42,5 +42,15 @@ vpnChooserControllers.controller('vpnCtrl', function ($scope, $timeout, Vpn) {
             });
         }
     };
+
+    $scope.displayDeleteButton = function() {
+        return $scope.vpn.id && $scope.is_admin;
+    };
+
+    Object.defineProperty($scope, 'is_admin', {
+        get: function() {
+            return UserService.is_admin;
+        }
+    });
 
 });
