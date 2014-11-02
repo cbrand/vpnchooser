@@ -7,11 +7,12 @@
     <script type="text/javascript" src="dist/lib.js"></script>
     <script type="text/javascript" src="dist/app.js"></script>
 </head>
-<body>
-    <div class="ui labeled icon menu" ng-controller="menuCtrl">
-        <a class="item" href="#/devices" ng-if="isAuthenticated()"><i class="desktop icon"></i>Devices</a>
-        <a class="item" href="#/vpns" ng-if="isAuthenticated()"><i class="upload disk icon"></i>VPNs</a>
-        <a class="item"><i class="wrench icon" ng-if="isAuthenticated()"></i>Routers</a>
+<body ng-controller="menuCtrl">
+    <div class="ui labeled icon menu" ng-if="isAuthenticated()">
+        <a class="item" href="#/devices"><i class="desktop icon"></i>Devices</a>
+        <a class="item" href="#/vpns"><i class="upload disk icon"></i>VPNs</a>
+        <a class="item"><i class="wrench icon"></i>Routers</a>
+        <a class="item" href="#/logout"><i class="sign out icon"></i>Logout</a>
     </div>
     <div ui-view></div>
 </body>
