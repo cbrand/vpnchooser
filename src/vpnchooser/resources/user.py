@@ -49,7 +49,7 @@ class AbstractUserResource(Resource):
     @staticmethod
     def update(user: User) -> User:
         args = parser.parse_args()
-        if current_user().is_admin:
+        if current_user().is_admin and args.is_admin is not None:
             user.is_admin = args.is_admin
         if args.password:
             user.password = args.password
