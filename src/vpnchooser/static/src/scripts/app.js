@@ -54,29 +54,36 @@ vpnChooserApp.config(function ($stateProvider, $urlRouterProvider, $resourceProv
             controller: 'usersCtrl'
         })
     ;
-}).factory('authHttpResponseInterceptor', ['$q', '$location', function ($q, $location) {
-    return {
-        response: function (response) {
-            if (response.status === 401) {
-                console.log("Response 401");
-            }
-            return response || $q.when(response);
-        },
-        responseError: function (rejection) {
-            if (rejection.status === 401) {
-                if (!/\/users\/.*$/.exec(rejection.config.url) && !rejection.config.method == "PUT") {
-                    console.log("Response Error 401", rejection);
+}).config(function ($httpProvider) {
+
+     var interceptor = ['$rootScope', '$q', '$location', function (scope, $q, $location) {
+
+        function success(response) {
+            return response;
+        }
+
+        function error(response) {
+            var status = response.status;
+
+            if (status == 401) {
+                if (!/\/users\/.*$/.exec(response.config.url) && response.config.method != "PUT") {
+                    console.log("Response Error 401", response);
                     $location.path('/login').search('returnTo', $location.path());
                 }
             }
-            return $q.reject(rejection);
+            // otherwise
+            return $q.reject(response);
+
         }
-    }
-}])
-    .config(['$httpProvider', function ($httpProvider) {
-        //Http Intercpetor to check auth failures for xhr requests
-        $httpProvider.interceptors.push('authHttpResponseInterceptor');
-    }])
+
+        return {
+            'response': success,
+            'responseError': error
+        }
+
+    }];
+    $httpProvider.interceptors.push(interceptor);
+})
     .run(function (UserService) {
         UserService.isAuthenticated();
     });
