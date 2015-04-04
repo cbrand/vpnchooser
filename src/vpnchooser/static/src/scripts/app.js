@@ -56,7 +56,15 @@ vpnChooserApp.config(function ($stateProvider, $urlRouterProvider, $resourceProv
             url: '/users/:userName/change-password',
             templateUrl: 'src/partials/users/change_password.html',
             controller: 'userCtrl'
-        });
+        }).state('userNew', {
+            url: '/users/new',
+            templateUrl: 'src/partials/users/new.html',
+            controller: 'newUserCtrl'
+        }).state('userEdit', {
+            url: '/users/:userName/edit',
+            templateUrl: 'src/partials/users/edit.html',
+            controller: 'editUserCtrl'
+        })
     ;
 }).config(function ($httpProvider) {
 

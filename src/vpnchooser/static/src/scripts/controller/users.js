@@ -8,6 +8,9 @@ vpnChooserControllers.controller('usersCtrl', function ($scope, $location, User,
 
     $scope.users = User.query();
 
+    $scope.moveToNew = function() {
+        $location.path('/users/new');
+    }
 
 });
 
@@ -21,9 +24,80 @@ vpnChooserControllers.controller('userCtrl', function($scope, $location, $stateP
         });
     }
 
-    $scope.moveToChangePassword = function() {
-        $location.path('/users/' + $scope.user.name + '/change-password');
+    $scope.moveToEdit = function() {
+        $location.path('/users/' + $scope.user.name + '/edit');
     }
+
+});
+
+vpnChooserControllers.controller('newUserCtrl', function($scope, $location, $timeout, $stateParams, User) {
+
+    var user = $scope.user = new User();
+    $scope.verify = function() {
+        if(!user.name) {
+            $scope.error = {
+                header: 'Name missing',
+                text: 'A name is required for the user.',
+                timeout: $timeout(function() {
+                    $scope.error = null;
+                }, 5000)
+            };
+            return false;
+        } else if(!user.password) {
+            $scope.error = {
+                header: 'Password missing',
+                text: 'A password is required.',
+                timeout: $timeout(function() {
+                    $scope.error = null;
+                }, 5000)
+            };
+            return false;
+        }
+        return true;
+    };
+
+    $scope.create = function() {
+        if($scope.verify()) {
+            user.$save().then(function() {
+                $location.path('/users');
+            }, function(error) {
+                var message = "";
+                if(error.status == 409) {
+                    message = "A user with this name already exists."
+                }
+                $scope.error = {
+                    header: 'Could not create the user. ' + message,
+                    timeout: $timeout(function() {
+                        $scope.error = null;
+                    }, 5000)
+                }
+            });
+        }
+    };
+});
+
+vpnChooserControllers.controller('editUserCtrl', function($scope, $location, $timeout, $stateParams, User) {
+    $scope.user = User.get({
+        name: $stateParams.userName
+    });
+
+    window.user = $scope.user;
+    $scope.edit = function() {
+        if(!$scope.user || !$scope.user.name) {
+            return;
+        }
+        User.update({name: $scope.user.name}, $scope.user).$promise.then(function() {
+
+            }, function() {
+                $scope.error = {
+                    header: 'Could not edit the user.',
+                    timeout: $timeout(function() {
+                        $scope.error = null;
+                    }, 5000)
+                }
+            }
+        );
+    };
 
     $scope.changePassword = function() {
         var password = $scope.newPassword || "";
@@ -61,5 +135,4 @@ vpnChooserControllers.controller('userCtrl', function($scope, $location, $stateP
                 }
             });
     }
-
 });

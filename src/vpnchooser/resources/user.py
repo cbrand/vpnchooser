@@ -47,8 +47,16 @@ class AbstractUserResource(Resource):
     """
 
     @staticmethod
+    def _get_by_username(user_name: str) -> User:
+        return session.query(User).filter(
+            User.name == user_name
+        ).first()
+
+    @staticmethod
     def update(user: User) -> User:
         args = parser.parse_args()
+        if not user.name and args.name:
+            user.name = args.name
         if current_user().is_admin and args.is_admin is not None:
             user.is_admin = args.is_admin
         if args.password:
@@ -61,12 +69,6 @@ class UserResource(AbstractUserResource):
     """
     The resource to access a user resource.
     """
-
-    @staticmethod
-    def _get_by_username(user_name: str) -> User:
-        return session.query(User).filter(
-            User.name == user_name
-        ).first()
 
     def _get_or_abort(self, user_name: str):
         user = self._get_by_username(user_name)
@@ -106,18 +108,6 @@ class UserResource(AbstractUserResource):
             abort(403)
 
     @require_admin
-    @marshal_with(resource_fields)
-    def post(self, user_name: str) -> User:
-        user = User()
-        user.name = user_name
-        if not user.password:
-            abort(400, message='you need to provide a password')
-        self.update(user)
-        return user, 201, {
-            'Location': url_for('user', user_name=user_name)
-        }
-
-    @require_admin
     def delete(self, user_name: str):
         """
         Deletes the resource with the given name.
@@ -141,3 +131,18 @@ class UserListResource(AbstractUserResource):
         if not user.is_admin:
             query = query.filter(User.name == user.name)
         return list(query)
+
+    @require_admin
+    @marshal_with(resource_fields)
+    def post(self) -> User:
+        args = parser.parse_args()
+        user = self._get_by_username(args.name)
+        if user is not None:
+            abort(409, message='User already exists')
+        user = User()
+        self.update(user)
+        session.add(user)
+        session.commit()
+        return user, 201, {
+            'Location': url_for('user', user_name=user.name)
+        }
