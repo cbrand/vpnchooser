@@ -111,18 +111,32 @@ userService.factory('UserService', function ($http, $q, $base64, localStorageSer
         },
 
         changePassword: function (oldPassword, newPassword) {
-            var self = this,
-                name = self.user_name
+            var self = this
                 ;
 
+            return self._changePassword(
+                self.user_name,
+                newPassword,
+                {
+                    'Authorization': 'Basic ' + $base64.encode(name + ':' + oldPassword)
+                }
+            );
+        },
+
+        changePasswordAdmin: function(name, password) {
+            return this._changePassword(name, password);
+        },
+
+        _changePassword: function(name, password, headers) {
+            var self = this
+                ;
+            headers = headers || {};
             return $http({
                 method: 'PUT',
                 url: '/users/' + name,
-                headers: {
-                    'Authorization': 'Basic ' + $base64.encode(name + ':' + oldPassword)
-                },
+                headers: headers,
                 data: {
-                    password: newPassword
+                    password: password
                 }
             }).success(function(data) {
                 self.updateWithData(data);

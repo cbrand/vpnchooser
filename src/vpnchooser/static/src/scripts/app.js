@@ -52,7 +52,11 @@ vpnChooserApp.config(function ($stateProvider, $urlRouterProvider, $resourceProv
             url: '/users',
             templateUrl: 'src/partials/users.html',
             controller: 'usersCtrl'
-        })
+        }).state('userChangePassword', {
+            url: '/users/:userName/change-password',
+            templateUrl: 'src/partials/users/change_password.html',
+            controller: 'userCtrl'
+        });
     ;
 }).config(function ($httpProvider) {
 
@@ -77,8 +81,8 @@ vpnChooserApp.config(function ($stateProvider, $urlRouterProvider, $resourceProv
         }
 
         return {
-            'response': success,
-            'responseError': error
+            response: success,
+            responseError: error
         }
 
     }];
