@@ -9,7 +9,8 @@ var vpnChooserApp = angular.module('vpnChooserApp', [
     'ui.router',
     'base64',
     'ngResource',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'angular-loading-bar'
 ]);
 
 

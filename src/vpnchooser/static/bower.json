@@ -23,6 +23,7 @@
         "angular-base64": "2.x.x",
         "angular-ui-router": "",
         "angular-local-storage": "0.1.x",
+        "angular-loading-bar": "0.7.x",
         "semantic-ui": "0.19.x"
     }
 }

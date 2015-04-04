@@ -28,13 +28,15 @@ module.exports = function (grunt) {
                     'bower_components/angular-resource/angular-resource.js',
                     'bower_components/angular-ui-router/release/angular-ui-router.js',
                     'bower_components/angular-local-storage/dist/angular-local-storage.js',
-                    'bower_components/semantic-ui/build/packaged/javascript/semantic.js'
+                    'bower_components/semantic-ui/build/packaged/javascript/semantic.js',
+                    'bower_components/angular-loading-bar/build/loading-bar.js'
                 ],
                 dest: 'dist/lib.js'
             },
             css: {
                 src: [
-                    'bower_components/semantic-ui/build/packaged/css/semantic.css'
+                    'bower_components/semantic-ui/build/packaged/css/semantic.css',
+                    'bower_components/angular-loading-bar/build/loading-bar.css'
                 ],
                 dest: 'dist/css/app.css'
             }
