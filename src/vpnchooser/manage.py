@@ -42,6 +42,7 @@ def create_admin(username, password, config=None):
     user = User()
     user.name = username
     user.password = password
+    user.is_admin = True
     user.generate_api_key()
     session.add(user)
     session.commit()
