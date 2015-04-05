@@ -28,6 +28,24 @@ vpnChooserControllers.controller('userCtrl', function($scope, $location, $stateP
         $location.path('/users/' + $scope.user.name + '/edit');
     }
 
+    $scope.checkDelete = function() {
+        $scope.deleteCheck = true;
+    }
+    $scope.deleteDeny = function() {
+        $scope.deleteCheck = false;
+    }
+    $scope.delete = function() {
+        $scope.deleteDeny();
+        $scope.user.$remove({
+            name: $scope.user.name
+        }).then(function() {
+            var index = $scope.users.indexOf($scope.user);
+            if(index !== -1) {
+                $scope.users.splice(index, 1);
+            }
+        });
+    }
+
 });
 
 vpnChooserControllers.controller('newUserCtrl', function($scope, $location, $timeout, $stateParams, User) {
