@@ -2,11 +2,13 @@
 """
 Manager for the application.
 """
+
 from getpass import getpass
 
 from flask.ext.script import Manager
 
 from vpnchooser.applicaton import app
+from vpnchooser.syncer import sync as do_sync
 from vpnchooser.db import db, session, User
 
 manager = Manager(app)
@@ -32,6 +34,12 @@ def init_db(config=None):
     _init_app(config)
     db.create_all()
 
+@manager.command
+@manager.option('-c', '--config', dest='config', default=None)
+def sync(config=None):
+    _init_app(config)
+    do_sync()
+    print("Synchronization complete")
 
 @manager.command
 @manager.option('-c', '--config', dest='config', default=None)
