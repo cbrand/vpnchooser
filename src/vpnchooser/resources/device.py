@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-from flask import request
 from flask.ext.restful import (
     Resource,
     fields,
@@ -10,8 +9,9 @@ from flask.ext.restful import (
 )
 from flask.ext.restful.reqparse import RequestParser
 
+from vpnchooser.syncer import sync
 from vpnchooser.helpers import (
-    require_admin, require_login,
+    require_login,
     id_from_url
 )
 from vpnchooser.helpers.fields import AbsoluteUrl, NullableAbsoluteUrl
@@ -57,6 +57,7 @@ class AbstractDeviceResource(Resource):
 
     @staticmethod
     def _update_vpn(args, device: Device) -> Device:
+        orig_vpn = device.vpn
         if args.vpn:
             try:
                 vpn_id = id_from_url(args.vpn, 'vpn_id')
@@ -64,9 +65,12 @@ class AbstractDeviceResource(Resource):
                     Vpn.id == vpn_id
                 ).first()
             except ValueError:
-                device.vpn_id = None
+                device.vpn = None
         else:
-            device.vpn_id = None
+            device.vpn = None
+
+        if orig_vpn != device.vpn:
+            sync.delay()
         return device
 
     def update(self, device: Device) -> Device:

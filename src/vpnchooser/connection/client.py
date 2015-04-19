@@ -109,25 +109,28 @@ class Client(object):
         try:
             server_rules = set(self.server_rules)
             rules = set(rules)
-            for to_remove_rule in server_rules.difference(rules):
+            to_remove_rules = server_rules.difference(rules)
+            to_add_rules = rules.difference(server_rules)
+            for to_remove_rule in to_remove_rules:
                 stdin, stdout, stderr = self.client.exec_command(
                     to_remove_rule.remove_command
                 )
                 stdout.read()
                 stderr.read()
-            for to_add_rule in rules.difference(server_rules):
+            for to_add_rule in to_add_rules:
                 stdin, stdout, stderr = self.client.exec_command(
                     to_add_rule.add_command
                 )
                 stdout.read()
                 stderr.read()
 
-            self._write_to_server(rules)
-            stdin, stdout, stderr = self.client.exec_command(
-                'ip route flush cache'
-            )
-            stdout.read()
-            stderr.read()
+            if len(to_remove_rules) or len(to_add_rules):
+                self._write_to_server(rules)
+                stdin, stdout, stderr = self.client.exec_command(
+                    'ip route flush cache'
+                )
+                stdout.read()
+                stderr.read()
         finally:
             self.client.close()
 

@@ -7,6 +7,7 @@ from .celery import make_celery
 
 app = Flask('vpnchooser')
 api = Api(app)
+
 celery = make_celery(app)
 
 @app.route('/')
