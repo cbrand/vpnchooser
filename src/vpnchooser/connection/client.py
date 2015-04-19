@@ -123,7 +123,11 @@ class Client(object):
                 stderr.read()
 
             self._write_to_server(rules)
-            self.client.exec_command('ip route flush cache')
+            stdin, stdout, stderr = self.client.exec_command(
+                'ip route flush cache'
+            )
+            stdout.read()
+            stderr.read()
         finally:
             self.client.close()
 
