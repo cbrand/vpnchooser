@@ -41,7 +41,7 @@ class Device(db.Model):
             return None
 
         rule = Rule()
-        rule.ip = '{ip}/24'.format(
+        rule.ip = '{ip}/32'.format(
             ip=self.ip
         )
         rule.table = self.vpn.table
