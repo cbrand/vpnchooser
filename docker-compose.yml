@@ -1,0 +1,14 @@
+redis:
+  image: redis
+web:
+  build: .
+  command: python manage.py runserver -h 0.0.0.0 -p 5000
+  ports:
+    - "5000:5000"
+  links:
+    - redis
+celery:
+  build: .
+  command: python manage.py runcelery
+  links:
+    - redis

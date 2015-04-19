@@ -29,9 +29,11 @@ def _init_app(config=None):
 
 @manager.command
 @manager.option('-c', '--config', dest='config', default=None)
-def runserver(config=None):
+@manager.option('-h', '--host', dest='host', default=None)
+@manager.option('-p', '--port', dest='port', default=None)
+def runserver(config=None, host=None, port=None):
     _init_app(config)
-    app.run()
+    app.run(host=host, port=int(port))
 
 
 @manager.command

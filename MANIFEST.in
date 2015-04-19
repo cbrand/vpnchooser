@@ -1,0 +1,3 @@
+graft src/vpnchooser/static/src
+graft src/vpnchooser/static/dist
+include src/vpnchooser/static/index.html

@@ -105,6 +105,9 @@ module.exports = function (grunt) {
         'build:lib',
         'build:js'
     ]);
+    grunt.registerTask('build:prod', [
+        'build:dev'
+    ]);
     grunt.registerTask('dev', [
         'build:dev'
     ]);
