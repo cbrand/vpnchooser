@@ -84,6 +84,8 @@ class Client(object):
         Parses the given data string and returns
         a list of rule objects.
         """
+        if isinstance(data, bytes):
+            data = data.decode('utf-8')
         lines = (
             item for item in
             (item.strip() for item in data.split('\n'))
@@ -121,7 +123,7 @@ class Client(object):
                 stderr.read()
 
             self._write_to_server(rules)
-            self.client.exec_command('ip rule flush')
+            self.client.exec_command('ip route flush cache')
         finally:
             self.client.close()
 
