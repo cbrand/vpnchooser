@@ -3,7 +3,8 @@
 import re
 
 
-parse_rule = re.compile('^(?P<ip>[0-9\.a-fA-F]+) (?P<table>[0-9]+)$')
+parse_rule = re.compile('^(?P<ip>[0-9\.a-fA-F/]+) (?P<table>[0-9]+)$')
+
 
 class Rule(object):
     """
