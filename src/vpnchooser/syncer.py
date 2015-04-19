@@ -3,6 +3,7 @@
 from vpnchooser.connection import Client
 from vpnchooser.db import session, Device
 
+from .applicaton import celery
 
 class Syncer:
     """
@@ -24,6 +25,7 @@ class Syncer:
             for item in qry
         ]
 
+@celery.task(name='vpnchooser.sync')
 def sync():
     """
     Synchronizes the current dataset from the database

@@ -8,7 +8,8 @@ requires = [
     'flask-restful',
     'Flask-Script',
     'paramiko',
-    'passlib'
+    'passlib',
+    'celery',
 ]
 
 setup(
