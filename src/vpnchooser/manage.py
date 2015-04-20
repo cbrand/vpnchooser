@@ -4,11 +4,9 @@ Manager for the application.
 """
 
 import sys
-
 from getpass import getpass
 
 from flask.ext.script import Manager
-
 from celery.bin.worker import worker
 
 from vpnchooser.applicaton import app, celery
@@ -42,12 +40,14 @@ def init_db(config=None):
     _init_app(config)
     db.create_all()
 
+
 @manager.command
 @manager.option('-c', '--config', dest='config', default=None)
 def sync(config=None):
     _init_app(config)
     do_sync()
     print("Synchronization complete")
+
 
 @manager.command
 @manager.option('-c', '--config', dest='config', default=None)
@@ -62,6 +62,7 @@ def create_admin(username, password, config=None):
     user.generate_api_key()
     session.add(user)
     session.commit()
+
 
 @manager.command
 @manager.option('-c', '--config', dest='config', default=None)
@@ -79,6 +80,7 @@ def reset_password(username, password=None, config=None):
     session.commit()
     print('Password reset done for user %s' % username)
 
+
 @manager.command
 @manager.option('-c', '--config', dest='config', default=None)
 def runcelery(config=None):
@@ -89,10 +91,16 @@ def runcelery(config=None):
     if __name__ != '__main__':  # pragma: no cover
         sys.modules['__main__'] = sys.modules[__name__]
     from billiard import freeze_support
+
     freeze_support()
     worker(app=celery).run_from_argv('vpnchooser', argv=[
         '-B'
     ])
 
-if __name__ == '__main__':
+
+def main():
     manager.run()
+
+
+if __name__ == '__main__':
+    main()
