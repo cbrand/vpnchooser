@@ -17,6 +17,7 @@ from vpnchooser.cli import (
     DockerConfigurationGenerator,
 )
 
+
 manager = Manager(app)
 
 
@@ -101,6 +102,7 @@ def runcelery(config=None):
         '-B'
     ])
 
+
 @manager.command
 @manager.option(
     '-c',
@@ -121,6 +123,7 @@ def generate_config(config, docker=False):
     else:
         generator = ConfigurationGenerator(config)
     generator.generate()
+
 
 def main():
     manager.run()

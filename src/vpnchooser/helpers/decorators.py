@@ -13,7 +13,7 @@ def authenticate():
     return Response(
         'Could not verify your access level for that URL.\n'
         'You have to login with proper credentials', 401,
-        #{'WWW-Authenticate': 'Basic realm="Login Required"'}
+        # {'WWW-Authenticate': 'Basic realm="Login Required"'}
         {}
     )
 
@@ -37,6 +37,7 @@ def require_login(func):
             return func(*args, **kwargs)
         else:
             return authenticate()
+
     return decorated
 
 
@@ -55,4 +56,5 @@ def require_admin(func):
             return Response(
                 'Forbidden', 403
             )
+
     return decorated

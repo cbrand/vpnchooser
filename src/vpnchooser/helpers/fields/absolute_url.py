@@ -2,8 +2,6 @@
 
 from urllib.parse import urlparse, urlunparse
 
-from werkzeug.routing import BuildError
-
 from flask.ext.restful.fields import Url
 from flask.helpers import url_for
 
@@ -35,8 +33,8 @@ class AbsoluteUrl(Url):
         else:
             return super(AbsoluteUrl, self).output(key, obj)
 
-class NullableAbsoluteUrl(AbsoluteUrl):
 
+class NullableAbsoluteUrl(AbsoluteUrl):
     def output(self, key, obj):
         try:
             return super(NullableAbsoluteUrl, self).output(key, obj)

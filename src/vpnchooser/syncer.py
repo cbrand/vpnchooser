@@ -5,6 +5,7 @@ from vpnchooser.db import session, Device
 
 from .applicaton import celery
 
+
 class Syncer:
     """
     Handler to sync the current dataset
@@ -24,6 +25,7 @@ class Syncer:
             item.rule
             for item in qry
         ]
+
 
 @celery.task(name='vpnchooser.sync')
 def sync():
