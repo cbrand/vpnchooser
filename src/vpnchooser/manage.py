@@ -12,6 +12,10 @@ from celery.bin.worker import worker
 from vpnchooser.applicaton import app, celery
 from vpnchooser.syncer import sync as do_sync
 from vpnchooser.db import db, session, User
+from vpnchooser.cli import (
+    ConfigurationGenerator,
+    DockerConfigurationGenerator,
+)
 
 manager = Manager(app)
 
@@ -97,6 +101,26 @@ def runcelery(config=None):
         '-B'
     ])
 
+@manager.command
+@manager.option(
+    '-c',
+    '--config',
+    help='file location the config should be written to.'
+)
+@manager.option(
+    '--docker',
+    default=False,
+    dest='docker',
+    action='store_true',
+    help='Wether the configuration should be populated by the default '
+         'docker data.'
+)
+def generate_config(config, docker=False):
+    if docker:
+        generator = DockerConfigurationGenerator(config)
+    else:
+        generator = ConfigurationGenerator(config)
+    generator.generate()
 
 def main():
     manager.run()
