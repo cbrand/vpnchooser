@@ -7,9 +7,8 @@ RUN mkdir -p /scripts
 RUN mkdir -p /data
 
 WORKDIR /code
-ADD dist/vpnchooser-0.5.0.tar.gz /code/vpnchooser-0.5.0.tar.gz
 RUN pip install --upgrade setuptools
-RUN easy_install vpnchooser-0.5.0.tar.gz
+RUN easy_install vpnchooser
 
 ADD docker.cfg /config/vpnchooser.cfg
 
