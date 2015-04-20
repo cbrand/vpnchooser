@@ -15,21 +15,27 @@ requires = [
 
 setup(
     name='vpnchooser',
-    version='0.5.0',
+    version='0.6.0',
     description='',
     classifiers=[
         "Programming Language :: Python",
+        "Development Status :: 3 - Alpha",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.4",
+        "Framework :: Flask",
+        "Topic :: System :: Networking",
     ],
-    author='',
-    author_email='',
-    url='',
-    keywords='',
+    author='Christoph Brand',
+    author_email='christoph@brand.rest',
+    keywords=['vpn', 'network', 'ip'],
     packages=find_packages('src'),  # include all packages under src
     package_dir={'': 'src'},  # tell distutils packages are under src
     namespace_packages=[],
     include_package_data=True,
     zip_safe=False,
     install_requires=requires,
+    url='https://github.com/cbrand/vpnchooser',
+    download_url='https://github.com/cbrand/vpnchooser/tarball/0.6.0',
     entry_points={
         'console_scripts': [
             'vpnchooser=vpnchooser.manage:main'
