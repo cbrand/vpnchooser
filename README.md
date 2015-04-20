@@ -122,7 +122,7 @@ This will compile the frontend.
 
 ## License ##
 
-The code is available with the [MIT](http://opensource.org/licenses/MIT)
+The code is licensed under the [MIT](http://opensource.org/licenses/MIT)
 license.
 
 ## TODO ##
