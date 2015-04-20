@@ -15,7 +15,7 @@ requires = [
 
 setup(
     name='vpnchooser',
-    version='0.6.0',
+    version='0.6.1',
     description='',
     classifiers=[
         "Programming Language :: Python",
@@ -35,7 +35,7 @@ setup(
     zip_safe=False,
     install_requires=requires,
     url='https://github.com/cbrand/vpnchooser',
-    download_url='https://github.com/cbrand/vpnchooser/tarball/0.6.0',
+    download_url='https://github.com/cbrand/vpnchooser/tarball/0.6.1',
     entry_points={
         'console_scripts': [
             'vpnchooser=vpnchooser.manage:main'
