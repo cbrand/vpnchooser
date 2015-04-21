@@ -1,5 +1,7 @@
 # VPNChooser #
 
+![vpnchooser screenshot](https://github.com/cbrand/vpnchooser/raw/master/images/screenshot.png "VPNChooser Screenshot")
+
 The vpnchooser is a web application which can be used as a graphical
 user interface to move devices from one ip rule table to another.
 
