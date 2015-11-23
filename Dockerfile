@@ -17,7 +17,7 @@ ENV FLASK_CONFIG_FILE /config/vpnchooser.cfg
 
 ADD manage.py /code/manage.py
 ADD start.sh /code/start.sh
-ADD start-celery.sh /code/start.sh
+ADD start-celery.sh /code/start-celery.sh
 RUN chmod +x /code/start.sh
 RUN chmod +x /code/start-celery.sh
 
