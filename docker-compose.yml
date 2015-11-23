@@ -1,5 +1,9 @@
 redis:
   image: redis
+mariadb:
+  image: mariadb
+  environment:
+    - MYSQL_ROOT_PASSWORD=5E84F90
 web:
   build: .
   command: python manage.py runserver -h 0.0.0.0 -p 5000
@@ -7,8 +11,15 @@ web:
     - "5000:5000"
   links:
     - redis
+    - mariadb
+  environment:
+    - MYSQL_ROOT_PASSWORD=5E84F90
 celery:
   build: .
   command: python manage.py runcelery
   links:
     - redis
+    - mariadb
+  environment:
+    - MYSQL_ROOT_PASSWORD=5E84F90
+    - MYSQL_DATABASE=vpnchooser

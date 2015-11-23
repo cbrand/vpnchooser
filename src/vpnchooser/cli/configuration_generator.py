@@ -1,5 +1,7 @@
 # -*- encoding: utf-8 -*-
 
+import os
+
 from getpass import getpass
 
 from pkg_resources import resource_string
@@ -91,7 +93,10 @@ class DockerConfigurationGenerator(ConfigurationGenerator):
     """
 
     def request_database(self):
-        self.database = "sqlite:////data/vpnchooser.db"
+        pw = os.environ.get('MYSQL_ROOT_PASSWORD', '')
+        if len(pw):
+            pw = ':%s' % pw
+        self.database = "mysql+pymysql://root%s@mariadb/vpnchooser" % pw
 
     def request_redis(self):
         self.redis = "redis:6379"
