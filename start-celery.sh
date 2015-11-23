@@ -4,7 +4,7 @@ FILE=/config/initialized
 
 if [ ! -f $FILE ]
 then
-    sleep 10
+    sleep 30
     echo 1 > $FILE
 fi
 

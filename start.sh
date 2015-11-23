@@ -4,10 +4,10 @@ FILE=/config/initialized
 
 if [ ! -f $FILE ]
 then
-    sleep 10
+    sleep 30
     python manage.py init_db
     python manage.py create_admin admin admin
     echo 1 > $FILE
 fi
 
-python manage.py runserver 0.0.0.0:5000
+python manage.py runserver  -h 0.0.0.0 -p 5000
