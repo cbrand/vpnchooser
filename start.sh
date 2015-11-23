@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE=/code/initialized
+FILE=/config/initialized
 
 if [ ! -f $FILE ]
 then
