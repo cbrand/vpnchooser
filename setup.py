@@ -15,7 +15,7 @@ requires = [
 
 setup(
     name='vpnchooser',
-    version='0.6.1',
+    version='0.6.2',
     description='Web UI to switch clients between different ip rule tables',
     classifiers=[
         "Programming Language :: Python",
