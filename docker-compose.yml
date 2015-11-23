@@ -6,7 +6,7 @@ mariadb:
     - MYSQL_ROOT_PASSWORD=5E84F90
 web:
   build: .
-  command: python manage.py runserver -h 0.0.0.0 -p 5000
+  command: /code/start.sh
   ports:
     - "5000:5000"
   links:

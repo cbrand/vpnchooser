@@ -16,9 +16,9 @@ ENV C_FORCE_ROOT true
 ENV FLASK_CONFIG_FILE /config/vpnchooser.cfg
 
 ADD manage.py /code/manage.py
+ADD start.sh /code/start.sh
+RUN chmod +x /code/start.sh
 
 RUN pip install PyMySQL
-RUN python manage.py init_db
-RUN python manage.py create_admin admin admin
 VOLUME ["/data", "/config"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:5000"]
+CMD ["start.sh"]
