@@ -4,7 +4,6 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir -p /config
 RUN mkdir -p /code
 RUN mkdir -p /scripts
-RUN mkdir -p /data
 
 WORKDIR /code
 RUN pip install --upgrade setuptools
@@ -22,5 +21,5 @@ RUN chmod +x /code/start.sh
 RUN chmod +x /code/start-celery.sh
 
 RUN pip install PyMySQL
-VOLUME ["/data", "/config"]
+VOLUME ["/config"]
 CMD ["start.sh"]
