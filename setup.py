@@ -13,9 +13,11 @@ requires = [
     'redis',
 ]
 
+VERSION = '0.6.2'
+
 setup(
     name='vpnchooser',
-    version='0.6.2',
+    version=VERSION,
     description='Web UI to switch clients between different ip rule tables',
     classifiers=[
         "Programming Language :: Python",
@@ -35,7 +37,7 @@ setup(
     zip_safe=False,
     install_requires=requires,
     url='https://github.com/cbrand/vpnchooser',
-    download_url='https://github.com/cbrand/vpnchooser/tarball/0.6.1',
+    download_url='https://github.com/cbrand/vpnchooser/tarball/%s' % VERSION,
     entry_points={
         'console_scripts': [
             'vpnchooser=vpnchooser.manage:main'
