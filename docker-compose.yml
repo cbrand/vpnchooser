@@ -16,7 +16,7 @@ web:
     - MYSQL_ROOT_PASSWORD=5E84F90
 celery:
   build: .
-  command: python manage.py runcelery
+  command: /code/start-celery.sh
   links:
     - redis
     - mariadb
