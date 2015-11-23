@@ -1,9 +1,3 @@
-redis:
-  image: redis
-mariadb:
-  image: mariadb
-  environment:
-    - MYSQL_ROOT_PASSWORD=5E84F90
 web:
   build: .
   command: /code/start.sh
@@ -20,6 +14,12 @@ celery:
   links:
     - redis
     - mariadb
+  environment:
+    - MYSQL_ROOT_PASSWORD=5E84F90
+redis:
+  image: redis
+mariadb:
+  image: mariadb
   environment:
     - MYSQL_ROOT_PASSWORD=5E84F90
     - MYSQL_DATABASE=vpnchooser

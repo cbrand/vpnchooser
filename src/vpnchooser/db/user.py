@@ -40,7 +40,7 @@ class User(db.Model):
         )
 
     is_admin = db.Column(db.Boolean, default=False,
-                         server_default='false')
+                         server_default=db.text('false'))
 
     _api_key = db.Column('api_key', db.Unicode(512), nullable=False)
 
