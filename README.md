@@ -57,6 +57,9 @@ This will ask for the necessary configuration options (host of the router,
 username, password) and extracts the ssh host key from the host. Finally
 it stores it to the file passed as a command line parameter.
 
+For a production build you also should adjust the root password for mysql,
+which is stored in the docker-compose.yml file.
+
 After that you can start the necessary docker instances with the following
 command.
 
