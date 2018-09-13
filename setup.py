@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 requires = [
-    'Flask==0.10.1',
+    'flask ~> 0.12.3',
     'Flask-RESTful==0.3.2',
     'Flask-Script==2.0.5',
     'Flask-SQLAlchemy==2.0',
